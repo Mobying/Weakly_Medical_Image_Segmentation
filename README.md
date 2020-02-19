@@ -1,0 +1,2 @@
+# Weakly_Medical_Image_Segmentation
+SimpleITK+plot
