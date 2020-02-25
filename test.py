@@ -51,20 +51,34 @@ def flip_ud(arr):
 def flip_lr(arr):
     return np.fliplr(arr)
 
+
+# img = nib.load('data/preprocessed/BraTS19_2013_2_1/t1ce.nii.gz')
 img = nib.load('data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_t1ce.nii.gz')
-# img = nib.load('data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_seg.nii.gz')
+# img = nib.load('data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_t1.nii.gz')
 # img = nib.load('data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_flair.nii.gz')
 img_arr = img.get_data()
 img_arr = flip_lr(img_arr) # 左右翻转
 print(img_arr.shape)
-img = nib.Nifti1Image(img_arr, affine=np.eye(4))
+img = nib.Nifti1Image(img_arr, affine=None)
 # img_arr = np.squeeze(img_arr)
 # io.imshow(img_arr[101,:,:])
 # print(img.dataobj.shape, type(img.slicer[91:]), type(img.slicer[91:].dataobj))
 # OrthoSlicer3D(img.slicer[91:,1:,1:].dataobj).show()
 # ax.axes.get_yaxis().set_visible(False)
 # ax.axes.get_xaxis().set_visible(False)
-OrthoSlicer3D(img.dataobj, title='t1ce').show()
+plot = OrthoSlicer3D(img.dataobj, axes=None, title='t1ce_2')
+# plot.show()
+# OrthoSlicer3D(img.dataobj, axes=None, title='t1ce').show()
+# print(
+plot.set_position(113, 133, 101)
+# plot._set_volume_index(0, update_slices=True)
+# plot.draw()
+# print(plot.n_volumes)
+# plot._plt.title('try')
+# plot
+plot._plt.savefig('test')
+plot.show()
+# plot.__annotations__
 
 # width,height,queue=img.dataobj.shape
 
