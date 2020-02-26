@@ -22,7 +22,7 @@ def show_img(data):
 #     io.show()
 
 
-path = 'data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_seg.nii.gz'  # 数据所在路径
+path = '../data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_seg.nii.gz'  # 数据所在路径
 data = read_img(path)
 # show_img(data)
 img_test = data[91:111, :, :]

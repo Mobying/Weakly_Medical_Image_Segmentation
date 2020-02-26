@@ -4,7 +4,7 @@ import os
 
 # path1 = os.path.abspath('.')
 # NII_DIR = path1 + '/data'  # nii文件所在root目录
-NII_DIR = './data'  # nii文件所在root目录
+NII_DIR = '../data'  # nii文件所在root目录
 
 import nibabel as nib
 

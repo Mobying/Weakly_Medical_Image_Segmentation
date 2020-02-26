@@ -4,7 +4,7 @@ import numpy as np
 import os
 import nibabel as nib
 
-NII_DIR = './data'  # nii文件所在root目录
+NII_DIR = '../data'  # nii文件所在root目录
 
 
 def read_nii_file2(img_path):
