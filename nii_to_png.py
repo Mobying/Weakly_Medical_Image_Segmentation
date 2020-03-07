@@ -6,10 +6,13 @@ warnings.filterwarnings('ignore', category=FutureWarning)
 
 import numpy as np
 import os  # 遍历文件夹
+import sys
+
+sys.path.append('.')
 import nibabel as nib  # nii格式一般都会用到这个包
 import imageio  # 转换成图像
-import matplotlib.image as plimg
 import matplotlib.pyplot as plt
+from cv2 import imread
 
 # filepath = 'ADNI'
 # filepath = 'data/original/BraTS19_2013_2_1/'
@@ -20,9 +23,17 @@ plane_list = ['x', 'y', 'z']
 plane_index = 2
 
 
+# img = nib.load('data/original/BraTS19_2013_2_1/BraTS19_2013_2_1_seg.nii.gz')  # 读取nii
+# img_fdata = img.get_fdata()
+# print(img_fdata.dtype)
+
+
 def nii_to_image(filepath, output_path):
     filenames = os.listdir(filepath)  # 读取nii文件夹
-    slice_trans = []
+    # slice_trans = []
+
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
 
     for f in filenames:
         # 开始读取nii文件
@@ -30,9 +41,14 @@ def nii_to_image(filepath, output_path):
         img_path = os.path.join(filepath, f)
         img = nib.load(img_path)  # 读取nii
         img_fdata = img.get_fdata()
-        print(img_fdata.dtype)
-        print(np.min(img_fdata), np.max(img_fdata))
+        print(img_fdata.dtype)  # float64
+        print(np.min(img_fdata), np.max(img_fdata))  # 0.0 1674.0
+        # img_fdata = img_as_ubyte(img_fdata)
+        # print(img_fdata.dtype)  # float64
+        # print(np.min(img_fdata), np.max(img_fdata))  # 0.0 1674.0
+        img_fdata = img_fdata.astype(np.uint8)
         img_fdata = img_fdata.T
+
         fname = f.replace('.nii.gz', '')  # 去掉nii的后缀名
         img_f_path = os.path.join(output_path, fname)
         # 创建nii对应的图像的文件夹
@@ -47,16 +63,30 @@ def nii_to_image(filepath, output_path):
             # 16位整数的范围在0到65535之间（2 ^ 16-1）。您需要将该范围强制降至8位：0 ... 255范围。
 
             slice = img_fdata[i, :, :]  # 选择哪个方向的切片都可以
-            # slice = slice.astype(np.uint8)  #
+            # print(slice.dtype)
 
+            # print(type(slice))
+            # print(slice.dtype, np.max(slice))
+            # slice = float64_to_uint8(slice)
+
+            # print(slice.dtype, np.max(slice))
+            # slice2 = img_as_ubyte(slice)
+            # slice = img_as_ubyte(slice)
+
+            # print(slice1.dtype, slice2.dtype)  # float64
+            # print(np.min(slice1), np.max(slice1))  # 0.0 1674.0
+            # print(np.min(slice2), np.max(slice2))  # 0.0 1674.0
             imageio.imwrite(os.path.join(img_f_path, '{}.png'.format(i)), slice)
             # 保存图像
 
-        img = plimg.imread(os.path.join(img_f_path, '{}.png'.format(101)))
+        # img = plimg.imread(os.path.join(img_f_path, '{}.png'.format(101)))
+        img = imread(os.path.join(img_f_path, '{}.png'.format(101)))
         # print(img.shape)
         # for j in range len(title_list)
         #     plt.title(title_list[j])
-        plt.imshow(img)
+        # img = img.astype(np.uint8)
+        print(img.dtype, np.max(img))
+        plt.imshow(img, cmap='gray')
         plt.axis('off')
         # plt.show()
         print(img.dtype, img.shape)
