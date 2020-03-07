@@ -12,7 +12,7 @@ from cv2 import imread
 image_dir = 'PNG2'
 #
 # image = color.rgb2gray(io.imread(image_dir + '/processed/t1ce/101.png'))
-# image = imread(os.path.join(image_dir + '/processed/t1ce/101.png'))
+image = imread(os.path.join(image_dir, 'preprocessed/Transverse/t1ce/101.png'))
 # print(type(image))  # <class 'numpy.ndarray'>
 # # image = imread(os.path.join(image_dir + '/processed/t2/101.png'))
 # mask = imread(os.path.join(image_dir + '/processed/truth/101.png'))
@@ -34,12 +34,12 @@ for i in range(rows):
             labels[i, j] = 3
         elif mask_gray[i, j] > 0:
             labels[i, j] = 1
-label_image = color.label2rgb(labels, bg_label=0)
+label_image = color.label2rgb(labels, image=image, bg_label=0)
 plt.figure(figsize=(6, 6), facecolor='black', edgecolor='black')
 plt.imshow(label_image)
 # io.imshow(label_image)
 plt.axis('off')
-title_obj = plt.title('Label Colored', size=20, y=0.01)
+title_obj = plt.title('Label Overlay Colored', size=20, y=0.01)
 # title_obj = plt.title('label_colored', size=20, y=-0.2)
 plt.setp(title_obj, color='white')
 # fig = plt.gcf()
@@ -48,5 +48,5 @@ plt.setp(title_obj, color='white')
 plt.tight_layout(pad=0)
 # axes = plt.gca()
 # axes.set_color('black')
-plt.savefig('test_plot/label_colored.png')
+plt.savefig('test_plot/label_overlay_colored.png')
 plt.show()
