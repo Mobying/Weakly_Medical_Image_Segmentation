@@ -12,7 +12,7 @@ from cv2 import imread
 image_dir = 'PNG2'
 
 plane_dir_list = ['Sagittal', 'Coronal', 'Transverse']
-plane_dir_index = 1
+plane_dir_index = 0
 plane = plane_dir_list[plane_dir_index]
 
 image = np.array
@@ -44,13 +44,17 @@ rows, cols = mask_gray.shape
 labels = np.zeros([rows, cols])
 for i in range(rows):
     for j in range(cols):
-        if mask_gray[i, j] > 0.66:
+        # if mask_gray[i, j] > 0.66:
         # if mask_gray[i, j] == 1:
+        if mask_gray[i, j] > 0.6:
             labels[i, j] = 2
-        elif mask_gray[i, j] > 0.33:
-        # elif mask_gray[i, j] > 0.4980392155:
+        # elif mask_gray[i, j] > 0.33:
+        elif mask_gray[i, j] > 0.3:
+        # elif mask_gray[i, j] == 127 / 255:
+        # elif mask_gray[i, j] == 0.4980392155:
         # elif mask_gray[i, j] == 0.4980395:
             labels[i, j] = 3
+        # elif mask_gray[i, j] == 64 / 255:
         elif mask_gray[i, j] > 0:
             labels[i, j] = 1
 
